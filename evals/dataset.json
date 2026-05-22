@@ -1,0 +1,68 @@
+[
+  {
+    "id": "ela-3-main-idea",
+    "objective": "Identify the main idea of a paragraph",
+    "grade_level": "3rd grade",
+    "subject": "ELA",
+    "expectations": {
+      "min_questions": 3,
+      "max_questions": 5,
+      "must_include_extension": true
+    }
+  },
+  {
+    "id": "math-8-two-step-equations",
+    "objective": "Solve two-step linear equations",
+    "grade_level": "8th grade",
+    "subject": "Math",
+    "expectations": {
+      "min_questions": 3,
+      "max_questions": 5,
+      "must_include_extension": true
+    }
+  },
+  {
+    "id": "sci-5-water-cycle",
+    "objective": "Explain the stages of the water cycle",
+    "grade_level": "5th grade",
+    "subject": "Science",
+    "expectations": {
+      "min_questions": 3,
+      "max_questions": 5,
+      "must_include_extension": true
+    }
+  },
+  {
+    "id": "ss-7-branches-of-government",
+    "objective": "Describe the three branches of the U.S. government and their roles",
+    "grade_level": "7th grade",
+    "subject": "Social Studies",
+    "expectations": {
+      "min_questions": 3,
+      "max_questions": 5,
+      "must_include_extension": true
+    }
+  },
+  {
+    "id": "math-2-place-value",
+    "objective": "Understand place value to the hundreds",
+    "grade_level": "2nd grade",
+    "subject": "Math",
+    "expectations": {
+      "min_questions": 3,
+      "max_questions": 5,
+      "must_include_extension": true
+    }
+  },
+  {
+    "id": "ela-10-thesis-statement",
+    "objective": "Write a clear thesis statement for an argumentative essay",
+    "grade_level": "10th grade",
+    "subject": "ELA",
+    "expectations": {
+      "min_questions": 3,
+      "max_questions": 5,
+      "must_include_extension": true
+    }
+  }
+]
