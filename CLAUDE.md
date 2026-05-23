@@ -48,6 +48,13 @@ the spec disagree, fix one of them deliberately — don't let them drift.**
    ```
 5. **Confirm the model name.** Open `app/llm.py` and check the `MODEL` constant
    against the current Anthropic docs — model strings change. Update if needed.
+6. **Install the frontend (if you'll be running the web UI):**
+   ```bash
+   cd web && npm install                # Angular + its devDeps
+   cd .. && npm install                 # repo root: husky + lint-staged + prettier
+   ```
+   The root `npm install` activates the husky pre-commit hook (Prettier
+   auto-fix + ESLint check on the `web/` tree).
 
 ---
 
@@ -66,8 +73,13 @@ a complete, defensible stopping point.
       graph; stream node-completion events so a UI can subscribe.
       → Verify: `uvicorn app.api:app --reload`, then `GET /healthz` and
         `POST /lessons` (SSE). API contract is in SPEC.md §6.
-- [ ] **5. Angular + RxJS frontend.** Input → live progress → review panel →
-      final lesson. This is the frontend-craft showcase. Accessibility matters.
+- [x] **5. Angular + RxJS frontend.** Input → live progress → review panel →
+      final lesson. SSE-over-POST wrapped as an RxJS Observable via
+      `fetch + ReadableStream`; signals-based state store; state-driven
+      view switching via `@switch`; accessibility (skip link, aria-live,
+      labelled controls, focus styles).
+      → Verify: `cd web; npm start` and visit http://localhost:4200
+        (with `uvicorn app.api:app --reload` running in another terminal).
 - [x] **6a. Polish the README + architecture diagram.** Mermaid diagrams
       render inline on GitHub; the README leads with what the project
       demonstrates and links to the spec for depth.
@@ -130,6 +142,12 @@ a complete, defensible stopping point.
 | `app/api.py` | FastAPI transport: SSE streams for the two pause-phases. |
 | `evals/dataset.json` | Pinned objectives for regression testing. |
 | `evals/run_evals.py` | The eval harness. |
+| `web/src/app/api/api.types.ts` | TS types mirroring the Pydantic schemas + SSE events. |
+| `web/src/app/api/lesson-api.service.ts` | SSE-over-POST wrapped as RxJS Observable. |
+| `web/src/app/api/lesson-state.service.ts` | Lifecycle store (signals). |
+| `web/src/app/{input-form,progress,review,final-lesson}/` | Four standalone components, one per lifecycle phase. |
+| `web/src/app/app.{ts,html,css}` | Root shell with state-driven view switching. |
+| `package.json` + `.husky/pre-commit` | Repo-level dev tooling (prettier + lint-staged + husky). |
 
 ---
 

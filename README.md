@@ -44,14 +44,16 @@ features that don't catch fire in production.
 
 ```mermaid
 flowchart LR
-    Client["CLI / HTTP client<br/>(frontend deferred)"]
+    UI["Angular + RxJS<br/>web/"]
+    CLI["Headless CLI<br/>app/run.py"]
     API["FastAPI<br/>app/api.py"]
     Graph["LangGraph orchestrator<br/>app/graph.py"]
     DB[("SQLite checkpointer<br/>lessonforge_state.db")]
     Model["Anthropic Claude<br/>(claude-sonnet-4-6)"]
 
-    Client -->|HTTP + SSE| API
-    API -->|stream events| Client
+    UI -->|HTTP + SSE| API
+    API -->|stream events| UI
+    CLI -->|drives directly| Graph
     API -->|graph.stream| Graph
     Graph <-->|persist / resume| DB
     Graph -->|generate_structured| Model
@@ -101,7 +103,9 @@ and resume without losing the run.
 
 ## Setup
 
-Requires Python 3.10+ and an [Anthropic API key](https://console.anthropic.com/).
+Requires Python 3.10+, Node 20+, and an [Anthropic API key](https://console.anthropic.com/).
+
+### Backend
 
 ```bash
 python -m venv .venv
@@ -113,9 +117,26 @@ export ANTHROPIC_API_KEY=sk-...        # Windows: see CLAUDE.md for persistent s
 > Check the current model name in the Anthropic docs and update `MODEL` in
 > `app/llm.py` if needed. Model strings change.
 
+### Frontend
+
+```bash
+cd web
+npm install                            # installs Angular + its devDeps
+```
+
+### Repo tooling (optional but recommended)
+
+```bash
+npm install                            # at the repo root: husky + lint-staged
+```
+
+Activates a pre-commit hook that runs Prettier (auto-fix on staged files)
+and ESLint (check) on the `web/` tree before each commit. Skip this if
+you don't plan to commit.
+
 ---
 
-## Three ways to drive it
+## Four ways to drive it
 
 ### 1. Headless CLI — full interrupt/resume cycle in the terminal
 
@@ -172,6 +193,41 @@ Full event-type reference and design rationale in
 keeps the HTTP boundary aligned with the graph's pause boundary — no
 background tasks, no shared queues, no concurrency surface.
 
+### 4. Browser UI — Angular + RxJS
+
+Run the backend and the Angular dev server in two terminals:
+
+```bash
+# Terminal A — backend
+uvicorn app.api:app --reload
+
+# Terminal B — frontend (from web/)
+cd web
+npm start
+```
+
+Open <http://localhost:4200>. Enter an objective, grade, and subject; watch
+each pipeline node complete; review the draft and approve / revise / reject;
+see the finalized lesson with a copy button.
+
+The frontend showcases:
+
+- **SSE-over-POST as an RxJS Observable.** The browser's native `EventSource`
+  is GET-only, but our endpoints are POST. `LessonApiService` wraps
+  `fetch` + `ReadableStream` + manual SSE frame parsing as an `Observable`
+  that emits each typed event; unsubscribing aborts the in-flight fetch
+  via `AbortController`.
+- **State as a signal store.** `LessonStateService` owns the lifecycle
+  (`idle | running | reviewing | finalizing | approved | rejected | error`)
+  and exposes it as Angular signals. Components stay declarative; the
+  service handles the subscription dance.
+- **State-driven view switching.** The root template is a single
+  `@switch` over `state.status()` — no router needed; the graph's state
+  machine is the view router.
+- **Accessibility.** Semantic landmarks, skip-to-main link, `aria-live`
+  on the progress region, labelled controls, focus styles, and pass/fail
+  badges that don't rely on color alone.
+
 ---
 
 ## Project layout
@@ -188,6 +244,9 @@ background tasks, no shared queues, no concurrency surface.
 | `app/api.py` | FastAPI transport with SSE streams. |
 | `evals/dataset.json` | Pinned objectives spanning subjects and grade levels. |
 | `evals/run_evals.py` | The eval harness. |
+| `web/src/app/api/` | TypeScript API client (types + SSE-over-POST RxJS service + lifecycle store). |
+| `web/src/app/{input-form,progress,review,final-lesson}/` | Four standalone components, one per lifecycle phase. |
+| `web/src/app/app.{ts,html,css}` | Root shell with state-driven view switching. |
 
 ---
 
@@ -201,13 +260,11 @@ background tasks, no shared queues, no concurrency surface.
 - Bounded self-correction (RALPH) quality loop
 - Pinned eval harness (6 cases passing across grades 2–10 and four subjects)
 - FastAPI transport with two-stream SSE matching the interrupt boundary
+- Angular + RxJS frontend with state-driven view switching, fetch+ReadableStream wrapped as Observable, signals-based state store, and accessibility baked in
+- Husky pre-commit hook (Prettier auto-fix + ESLint check) on the `web/` tree
 
 **Deliberately deferred:**
 
-- **Angular + RxJS frontend.** The visible polish pass. The backend already
-  streams the events a UI would subscribe to, so this is additive. The
-  portfolio framing is *the backend is the proof; the frontend is the
-  polish.*
 - **Public deploy.** `POST /lessons` calls the Anthropic API on each
   invocation. Exposing it without auth, rate limiting, and a hard spend cap
   is a credit-burn risk for a single-developer project. Local-runnable is a
