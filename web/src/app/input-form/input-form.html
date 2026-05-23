@@ -9,7 +9,9 @@
       rows="3"
       placeholder="e.g. Identify the main idea of a paragraph"
       aria-describedby="objective-hint"
-      [attr.aria-invalid]="form.controls.objective.invalid && form.controls.objective.touched ? 'true' : null"
+      [attr.aria-invalid]="
+        form.controls.objective.invalid && form.controls.objective.touched ? 'true' : null
+      "
     ></textarea>
     <small id="objective-hint" class="hint">What you want students to know or be able to do.</small>
   </div>

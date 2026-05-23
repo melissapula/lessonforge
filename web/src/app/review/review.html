@@ -32,7 +32,9 @@
             <li>
               <p class="question">{{ q.question }}</p>
               <p class="answer"><strong>Answer:</strong> {{ q.answer }}</p>
-              <p class="rationale"><em>{{ q.rationale }}</em></p>
+              <p class="rationale">
+                <em>{{ q.rationale }}</em>
+              </p>
             </li>
           }
         </ol>
@@ -44,19 +46,31 @@
         <h3>Quality report</h3>
         <ul class="rubric">
           <li>
-            <span class="badge" [class.pass]="report.alignment.passed" [class.fail]="!report.alignment.passed">
+            <span
+              class="badge"
+              [class.pass]="report.alignment.passed"
+              [class.fail]="!report.alignment.passed"
+            >
               {{ report.alignment.passed ? 'PASS' : 'FAIL' }}
             </span>
             <strong>Alignment</strong> — {{ report.alignment.critique }}
           </li>
           <li>
-            <span class="badge" [class.pass]="report.reading_level.passed" [class.fail]="!report.reading_level.passed">
+            <span
+              class="badge"
+              [class.pass]="report.reading_level.passed"
+              [class.fail]="!report.reading_level.passed"
+            >
               {{ report.reading_level.passed ? 'PASS' : 'FAIL' }}
             </span>
             <strong>Reading level</strong> — {{ report.reading_level.critique }}
           </li>
           <li>
-            <span class="badge" [class.pass]="report.check_validity.passed" [class.fail]="!report.check_validity.passed">
+            <span
+              class="badge"
+              [class.pass]="report.check_validity.passed"
+              [class.fail]="!report.check_validity.passed"
+            >
               {{ report.check_validity.passed ? 'PASS' : 'FAIL' }}
             </span>
             <strong>Check validity</strong> — {{ report.check_validity.critique }}
@@ -72,10 +86,16 @@
         <button type="button" class="danger" (click)="reject()">Reject</button>
       } @else {
         <label for="notes">What should change?</label>
-        <textarea id="notes" [formControl]="notes" rows="3"
-          placeholder="e.g. Use simpler language; the second worked example was too hard."></textarea>
+        <textarea
+          id="notes"
+          [formControl]="notes"
+          rows="3"
+          placeholder="e.g. Use simpler language; the second worked example was too hard."
+        ></textarea>
         <div class="actions-row">
-          <button type="button" class="primary" (click)="submitRevise()" [disabled]="notes.invalid">Submit revision</button>
+          <button type="button" class="primary" (click)="submitRevise()" [disabled]="notes.invalid">
+            Submit revision
+          </button>
           <button type="button" (click)="cancelRevise()">Cancel</button>
         </div>
       }

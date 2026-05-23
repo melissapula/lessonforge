@@ -4,6 +4,13 @@ __pycache__/
 .venv/
 venv/
 
+# Node (root-level tooling — web/ has its own .gitignore for its tree)
+node_modules/
+
+# Husky's auto-generated internal scripts (recreated by `npm install` via the
+# `prepare` script). Only .husky/pre-commit is tracked.
+.husky/_/
+
 # Local state / secrets
 *.db
 *.db-wal
