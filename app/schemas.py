@@ -107,7 +107,7 @@ class LessonState(TypedDict):
 
 
 # Subject options — kept here so the frontend dropdown and the backend agree.
-SUBJECTS = ["Math", "ELA", "Science", "Social Studies", "Other"]
+SUBJECTS = ["Math", "ELA", "Science", "Social Studies", "Music", "Other"]
 
 # How many automatic quality-revision loops before we give up and show the
 # teacher the flawed draft anyway. This is the "completion promise" of the

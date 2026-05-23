@@ -87,7 +87,7 @@ class LessonState(TypedDict):
     # Inputs (set once, at the start)
     objective: str            # free text, e.g. "Identify the main idea of a paragraph"
     grade_level: str          # e.g. "3rd grade"
-    subject: str              # enum: Math | ELA | Science | Social Studies | Other
+    subject: str              # enum: Math | ELA | Science | Social Studies | Music | Other
 
     # Produced by nodes
     lesson: LessonContent | None          # node 1

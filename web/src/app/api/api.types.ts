@@ -80,7 +80,7 @@ export interface DecisionRequest {
 }
 
 // Mirrors SUBJECTS in app/schemas.py — keep these in sync.
-export const SUBJECTS = ['Math', 'ELA', 'Science', 'Social Studies', 'Other'] as const;
+export const SUBJECTS = ['Math', 'ELA', 'Science', 'Social Studies', 'Music', 'Other'] as const;
 export type Subject = (typeof SUBJECTS)[number];
 
 export const GRADE_LEVELS = [
