@@ -60,7 +60,7 @@ a complete, defensible stopping point.
       → Verify: `python -m app.run`
 - [x] **2. Checkpointer + real interrupt.** State persists; graph pauses/resumes.
       → Already wired via SqliteSaver in `app/run.py`.
-- [ ] **3. Eval harness.** Already written — just run it and read the output:
+- [x] **3. Eval harness.** Already written — just run it and read the output:
       → `python -m evals.run_evals`
 - [ ] **4. FastAPI wrapper + progress stream.** Thin transport layer over the
       graph; stream node-completion events so a UI can subscribe.

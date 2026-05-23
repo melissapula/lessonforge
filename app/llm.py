@@ -25,7 +25,7 @@ from pydantic import BaseModel, ValidationError
 
 # The ONE place the provider/model is named. Swap here, or add a branch for a
 # second provider when you build the benchmark.
-MODEL = "claude-sonnet-4-5"  # check current model names in Anthropic docs when you run this
+MODEL = "claude-sonnet-4-6"  # check current model names in Anthropic docs when you run this
 
 T = TypeVar("T", bound=BaseModel)
 
