@@ -1,12 +1,53 @@
-<main class="container">
-  <header>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="site-header">
+  <div class="container">
     <h1>{{ title() }}</h1>
     <p class="tagline">Self-paced, mastery-based lesson generator — with the teacher in the loop.</p>
-  </header>
+  </div>
+</header>
 
-  <section aria-live="polite">
-    <p>The frontend is scaffolded. Components arrive in the next commits — see
-       <a href="https://github.com/melissapula/lessonforge">github.com/melissapula/lessonforge</a>
-       for the build progression.</p>
-  </section>
+<main id="main" class="container" tabindex="-1">
+  @switch (state.status()) {
+    @case ('idle') {
+      <app-input-form />
+    }
+    @case ('running') {
+      <app-progress />
+    }
+    @case ('reviewing') {
+      <app-progress />
+      <app-review />
+    }
+    @case ('finalizing') {
+      <app-progress />
+    }
+    @case ('approved') {
+      <app-final-lesson />
+    }
+    @case ('rejected') {
+      <section class="status-card">
+        <h2>Draft rejected</h2>
+        <p>You rejected the draft. No lesson was finalized.</p>
+        <button type="button" class="primary" (click)="state.reset()">Start a new lesson</button>
+      </section>
+    }
+    @case ('error') {
+      <section class="status-card error" role="alert">
+        <h2>Something went wrong</h2>
+        <p>{{ state.errorMessage() }}</p>
+        <button type="button" class="primary" (click)="state.reset()">Start over</button>
+      </section>
+    }
+  }
 </main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>
+      <a href="https://github.com/melissapula/lessonforge" target="_blank" rel="noopener">github.com/melissapula/lessonforge</a>
+      &nbsp;·&nbsp;
+      Built spec-first. See <code>SPEC.md</code> for the design contract.
+    </p>
+  </div>
+</footer>
