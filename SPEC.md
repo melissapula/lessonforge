@@ -212,7 +212,67 @@ it is demonstrating that AI behavior is tested like code, not eyeballed.
 
 ---
 
-## 6. Frontend Spec (Angular)
+## 6. API Contract (FastAPI ↔ Graph)
+
+The FastAPI layer is a **thin transport** over the compiled graph. It holds no
+state of its own — all durable state lives in the LangGraph SqliteSaver, keyed
+by `thread_id`. The server opens one shared checkpointer for its lifetime via
+the FastAPI lifespan.
+
+### Design choice — two SSE streams per lesson
+The teacher interrupt is mirrored at the HTTP layer. A single lesson run uses
+two server-sent-event streams, one per phase:
+
+- **Stream 1** (`POST /lessons`) runs from "objective submitted" to "awaiting
+  review" — the pre-interrupt phase. The SSE connection terminates exactly
+  when the graph pauses at the interrupt.
+- The client POSTs the teacher's decision on a separate request.
+- **Stream 2** (`POST /lessons/{id}/decision`) runs from "decision submitted"
+  to "lesson finalized" (or, on `revise`, to the next interrupt).
+
+The HTTP boundary thus mirrors the graph's pause boundary. No background
+tasks, no in-process pub/sub queue — just a clean request/response per phase.
+Single-user, single-process is fine for v1 (see §9 Out of Scope). The Angular
+client concatenates the two streams into one RxJS `Observable` (§7).
+
+### Endpoints
+
+**`POST /lessons`** — start a new run.
+- Body: `{ objective, grade_level, subject }`
+- Response: `text/event-stream` (SSE), terminates at the interrupt.
+
+**`POST /lessons/{thread_id}/decision`** — submit teacher decision and resume.
+- Body: `{ decision: "approve" | "revise" | "reject", notes?: string }`
+- Response: `text/event-stream` (SSE), terminates at graph END or the next
+  interrupt (on `revise`).
+- `revise` requires non-empty `notes`.
+
+**`GET /lessons/{thread_id}`** — snapshot of current state, for clients
+hydrating the review panel or reconnecting after a network blip.
+- Response: `{ thread_id, status, state }` where `status` is one of
+  `running` | `awaiting_review` | `approved` | `rejected`.
+
+### SSE event types
+
+| event             | payload                                                                 |
+|-------------------|-------------------------------------------------------------------------|
+| `thread_id`       | `{ "thread_id": "..." }` — emitted first on `POST /lessons`.            |
+| `node_complete`   | `{ "node": "draft_lesson", "update": <partial state update> }`          |
+| `awaiting_review` | `{ "thread_id": "...", "state": <full state snapshot> }`                |
+| `complete`        | `{ "status": "approved" \| "rejected", "final_lesson": <object or null> }` |
+| `error`           | `{ "message": "..." }`                                                  |
+
+Pydantic models (LessonContent, MasteryCheck, QualityReport, FinalLesson) are
+serialized via `model_dump()` inside event payloads.
+
+### Run mode
+`uvicorn app.api:app --reload` for local development. Checkpoints persist to
+`lessonforge_state.db` so a graph paused at the interrupt survives a server
+restart — the durable-execution story end-to-end.
+
+---
+
+## 7. Frontend Spec (Angular)
 
 - **Input view:** objective (textarea), grade level (select), subject (select),
   Generate button.
@@ -228,7 +288,7 @@ it is demonstrating that AI behavior is tested like code, not eyeballed.
 
 ---
 
-## 7. Build Order (scoped to a weekend)
+## 8. Build Order (scoped to a weekend)
 
 1. **The graph, headless.** Build all four nodes, the conditional edge, and the
    schemas. Drive it from a Python script with hardcoded inputs. *Stop the
@@ -246,7 +306,7 @@ it is demonstrating that AI behavior is tested like code, not eyeballed.
 
 ---
 
-## 8. Out of Scope (v1)
+## 9. Out of Scope (v1)
 
 - User accounts / auth.
 - Saving lessons to a database (final lesson is displayed/exported, not stored).
@@ -255,7 +315,7 @@ it is demonstrating that AI behavior is tested like code, not eyeballed.
 
 ---
 
-## 9. What This Demonstrates (for the reader)
+## 10. What This Demonstrates (for the reader)
 
 | JD requirement | Where it lives in this project |
 |---|---|
@@ -267,5 +327,5 @@ it is demonstrating that AI behavior is tested like code, not eyeballed.
 | Cross-provider benchmark | §5 stretch goal |
 | RALPH loop with a completion promise | `quality_gate` revision loop (§3) |
 | Spec-Driven Development | This document |
-| Angular, RxJS, accessibility | Frontend spec (§6) |
+| Angular, RxJS, accessibility | Frontend spec (§7) |
 | Edtech product sense | The whole premise |

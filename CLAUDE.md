@@ -62,8 +62,10 @@ a complete, defensible stopping point.
       → Already wired via SqliteSaver in `app/run.py`.
 - [x] **3. Eval harness.** Already written — just run it and read the output:
       → `python -m evals.run_evals`
-- [ ] **4. FastAPI wrapper + progress stream.** Thin transport layer over the
+- [x] **4. FastAPI wrapper + progress stream.** Thin transport layer over the
       graph; stream node-completion events so a UI can subscribe.
+      → Verify: `uvicorn app.api:app --reload`, then `GET /healthz` and
+        `POST /lessons` (SSE). API contract is in SPEC.md §6.
 - [ ] **5. Angular + RxJS frontend.** Input → live progress → review panel →
       final lesson. This is the frontend-craft showcase. Accessibility matters.
 - [ ] **6. Polish the README + architecture diagram + deploy.** Backend to
@@ -121,6 +123,7 @@ a complete, defensible stopping point.
 | `app/nodes.py` | The four pipeline steps (draft, check, quality, finalize). |
 | `app/graph.py` | LangGraph wiring: edges, the RALPH loop, the interrupt. |
 | `app/run.py` | Headless CLI driver + interrupt/resume cycle. |
+| `app/api.py` | FastAPI transport: SSE streams for the two pause-phases. |
 | `evals/dataset.json` | Pinned objectives for regression testing. |
 | `evals/run_evals.py` | The eval harness. |
 
