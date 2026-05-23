@@ -42,10 +42,12 @@ the spec disagree, fix one of them deliberately — don't let them drift.**
    source .venv/bin/activate          # Windows: .venv\Scripts\activate
    pip install -r requirements.txt
    ```
-4. **Set your API key** (do NOT commit it — `.gitignore` already excludes `.env`):
-   ```bash
-   export ANTHROPIC_API_KEY=sk-...    # Windows: set ANTHROPIC_API_KEY=sk-...
-   ```
+4. **Set your API key.** Two options:
+   - **Recommended:** `cp .env.example .env` and put the key in `.env`.
+     `app/__init__.py` loads it at import time via python-dotenv.
+     `.env` is gitignored.
+   - **Or a real env var:** `export ANTHROPIC_API_KEY=sk-...` (or
+     persistent Windows User-scope). Real env vars win over `.env`.
 5. **Confirm the model name.** Open `app/llm.py` and check the `MODEL` constant
    against the current Anthropic docs — model strings change. Update if needed.
 6. **Install the frontend (if you'll be running the web UI):**

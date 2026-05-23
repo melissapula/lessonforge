@@ -111,8 +111,16 @@ Requires Python 3.10+, Node 20+, and an [Anthropic API key](https://console.anth
 python -m venv .venv
 source .venv/bin/activate              # Windows: .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-export ANTHROPIC_API_KEY=sk-...        # Windows: see CLAUDE.md for persistent setup
 ```
+
+Set the Anthropic API key one of two ways:
+
+- **Recommended — `.env` file.** Copy `.env.example` to `.env` and fill in the
+  key. `app/__init__.py` loads it at import time, so every entry point
+  (`uvicorn app.api:app`, `python -m app.run`, `python -m evals.run_evals`)
+  picks it up automatically. `.env` is gitignored.
+- **Or a real env var.** `export ANTHROPIC_API_KEY=sk-...` (Linux/macOS) or
+  set it persistently on Windows. A real env var still wins over `.env`.
 
 > Check the current model name in the Anthropic docs and update `MODEL` in
 > `app/llm.py` if needed. Model strings change.
