@@ -68,8 +68,12 @@ a complete, defensible stopping point.
         `POST /lessons` (SSE). API contract is in SPEC.md §6.
 - [ ] **5. Angular + RxJS frontend.** Input → live progress → review panel →
       final lesson. This is the frontend-craft showcase. Accessibility matters.
-- [ ] **6. Polish the README + architecture diagram + deploy.** Backend to
-      Render/Railway/Fly, frontend to Cloudflare Pages or Netlify.
+- [x] **6a. Polish the README + architecture diagram.** Mermaid diagrams
+      render inline on GitHub; the README leads with what the project
+      demonstrates and links to the spec for depth.
+- [ ] **6b. Deploy** — deferred. `POST /lessons` is an open door to your
+      Anthropic credits without auth + rate limit + spend cap. Reasons +
+      the path to "yes" are in the README's *Status* section.
 
 > If time runs short, steps 1–3 + a strong README are already a complete artifact.
 > The frontend is the polish pass, not the proof.

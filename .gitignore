@@ -6,6 +6,9 @@ venv/
 
 # Local state / secrets
 *.db
+*.db-wal
+*.db-shm
+*.db-journal
 .env
 
 # OS
