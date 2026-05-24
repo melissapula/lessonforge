@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LessonStateService } from '../api/lesson-state.service';
 
@@ -8,6 +8,7 @@ import { LessonStateService } from '../api/lesson-state.service';
     imports: [ReactiveFormsModule],
     templateUrl: './review.html',
     styleUrl: './review.css',
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class Review {
     protected readonly state = inject(LessonStateService);

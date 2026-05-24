@@ -81,9 +81,9 @@
 
         <section class="actions" role="group" aria-label="Decision">
             @if (!showRevisePanel()) {
-                <button type="button" class="primary" (click)="approve()">Approve</button>
-                <button type="button" (click)="openRevise()">Revise…</button>
-                <button type="button" class="danger" (click)="reject()">Reject</button>
+                <mfp-button variant="primary" (click)="approve()">Approve</mfp-button>
+                <mfp-button variant="secondary" (click)="openRevise()">Revise…</mfp-button>
+                <mfp-button variant="danger" (click)="reject()">Reject</mfp-button>
             } @else {
                 <label for="notes">What should change?</label>
                 <textarea
@@ -93,15 +93,14 @@
                     placeholder="e.g. Use simpler language; the second worked example was too hard."
                 ></textarea>
                 <div class="actions-row">
-                    <button
-                        type="button"
-                        class="primary"
+                    <mfp-button
+                        variant="primary"
                         (click)="submitRevise()"
-                        [disabled]="notes.invalid"
+                        [attr.disabled]="notes.invalid ? '' : null"
                     >
                         Submit revision
-                    </button>
-                    <button type="button" (click)="cancelRevise()">Cancel</button>
+                    </mfp-button>
+                    <mfp-button variant="secondary" (click)="cancelRevise()">Cancel</mfp-button>
                 </div>
             }
         </section>
