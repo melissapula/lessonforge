@@ -21,7 +21,7 @@ self-paced, mastery-based instructional model.
 ## Demo
 
 <p align="center">
-  <video src="./docs/demo.mp4" controls width="720"></video>
+  <video src="https://github.com/user-attachments/assets/479a6770-c589-4452-b311-1b8849d0c2e6" controls width="720"></video>
 </p>
 
 A walkthrough of one full lesson: enter an objective → watch the pipeline
