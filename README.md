@@ -18,6 +18,18 @@ self-paced, mastery-based instructional model.
 
 ---
 
+## Demo
+
+<p align="center">
+  <video src="./docs/demo.mp4" controls width="720"></video>
+</p>
+
+A walkthrough of one full lesson: enter an objective → watch the pipeline
+stream node-completion events → review the draft, the mastery check, and the
+quality report → approve → see the finalized lesson.
+
+---
+
 ## What this demonstrates
 
 A portfolio piece for production agentic engineering. Each pattern below is
