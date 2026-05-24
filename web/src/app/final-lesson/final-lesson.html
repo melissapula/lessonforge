@@ -1,44 +1,44 @@
 @if (state.finalLesson(); as lesson) {
-  <article aria-labelledby="final-title">
-    <header>
-      <h2 id="final-title">{{ lesson.title }}</h2>
-    </header>
+    <article aria-labelledby="final-title">
+        <header>
+            <h2 id="final-title">{{ lesson.title }}</h2>
+        </header>
 
-    <section>
-      <h3>Lesson</h3>
-      <p class="explanation">{{ lesson.lesson.explanation }}</p>
+        <section>
+            <h3>Lesson</h3>
+            <p class="explanation">{{ lesson.lesson.explanation }}</p>
 
-      <h3>Worked examples</h3>
-      <ol class="examples">
-        @for (ex of lesson.lesson.worked_examples; track $index) {
-          <li>
-            <p class="example-prompt">{{ ex.prompt }}</p>
-            <p class="example-solution">{{ ex.solution }}</p>
-          </li>
-        }
-      </ol>
+            <h3>Worked examples</h3>
+            <ol class="examples">
+                @for (ex of lesson.lesson.worked_examples; track $index) {
+                    <li>
+                        <p class="example-prompt">{{ ex.prompt }}</p>
+                        <p class="example-solution">{{ ex.solution }}</p>
+                    </li>
+                }
+            </ol>
 
-      <h3>Extension activity</h3>
-      <p>{{ lesson.lesson.extension_activity }}</p>
-    </section>
+            <h3>Extension activity</h3>
+            <p>{{ lesson.lesson.extension_activity }}</p>
+        </section>
 
-    <section>
-      <h3>Mastery check</h3>
-      <ol class="questions">
-        @for (q of lesson.mastery_check.questions; track $index) {
-          <li>
-            <p class="question">{{ q.question }}</p>
-            <p class="answer"><strong>Answer:</strong> {{ q.answer }}</p>
-          </li>
-        }
-      </ol>
-    </section>
+        <section>
+            <h3>Mastery check</h3>
+            <ol class="questions">
+                @for (q of lesson.mastery_check.questions; track $index) {
+                    <li>
+                        <p class="question">{{ q.question }}</p>
+                        <p class="answer"><strong>Answer:</strong> {{ q.answer }}</p>
+                    </li>
+                }
+            </ol>
+        </section>
 
-    <div class="actions">
-      <button type="button" class="primary" (click)="copy()">
-        {{ copied() ? 'Copied!' : 'Copy lesson' }}
-      </button>
-      <button type="button" (click)="reset()">Start another lesson</button>
-    </div>
-  </article>
+        <div class="actions">
+            <button type="button" class="primary" (click)="copy()">
+                {{ copied() ? 'Copied!' : 'Copy lesson' }}
+            </button>
+            <button type="button" (click)="reset()">Start another lesson</button>
+        </div>
+    </article>
 }

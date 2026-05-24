@@ -6,13 +6,13 @@ import { Review } from './review/review';
 import { FinalLesson } from './final-lesson/final-lesson';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [InputForm, Progress, Review, FinalLesson],
-  templateUrl: './app.html',
-  styleUrl: './app.css',
+    selector: 'app-root',
+    standalone: true,
+    imports: [InputForm, Progress, Review, FinalLesson],
+    templateUrl: './app.html',
+    styleUrl: './app.css',
 })
 export class App {
-  protected readonly title = signal('LessonForge');
-  protected readonly state = inject(LessonStateService);
+    protected readonly title = signal('LessonForge');
+    protected readonly state = inject(LessonStateService);
 }

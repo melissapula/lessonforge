@@ -1,54 +1,58 @@
 /* Global base styles */
 
+/*
+ * LessonForge's app-level CSS variable layer. Where a value matches a
+ * @mfp-design-system/tokens semantic, the var references the token directly
+ * (single source of truth). Where LessonForge's warm/earthy palette has no
+ * direct token equivalent yet, the value stays as a literal.
+ */
 :root {
-  --accent: #2563eb;
-  --accent-hover: #1d4ed8;
-  --success: #16a34a;
-  --danger: #dc2626;
-  --danger-bg: #fef2f2;
-  --header-bg: #1f2937;
-  --header-muted: #cbd5e1;
-  --footer-bg: #f4f3ef;
-  --card: #ffffff;
-  --bg: #fafaf7;
-  --text: #1f2937;
-  --muted: #6b6963;
-  --border: #e5e3df;
-  --hover: #f4f3ef;
+    /* Matched to design system tokens */
+    --accent: var(--color-status-info-solid);
+    --success: var(--color-status-success-solid);
+    --danger: var(--color-status-error-solid);
+    --header-bg: var(--color-neutral-800);
+    --card: var(--color-neutral-0);
+
+    /* Local values — warm palette or hover states without direct token equivalents */
+    --accent-hover: #1d4ed8;
+    --danger-bg: #fef2f2;
+    --header-muted: #cbd5e1;
+    --footer-bg: #f4f3ef;
+    --bg: #fafaf7;
+    --text: #1f2937;
+    --muted: #6b6963;
+    --border: #e5e3df;
+    --hover: var(--footer-bg);
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 html,
 body {
-  margin: 0;
-  padding: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family:
-    system-ui,
-    -apple-system,
-    'Segoe UI',
-    Roboto,
-    sans-serif;
-  line-height: 1.55;
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-family-sans);
+    line-height: var(--font-line-height-normal);
 }
 
 .container {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 0 1.25rem;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 var(--size-spacing-5);
 }
 
 h1,
 h2,
 h3,
 h4 {
-  line-height: 1.25;
+    line-height: var(--font-line-height-tight);
 }
 
 a {
-  color: var(--accent);
+    color: var(--accent);
 }
