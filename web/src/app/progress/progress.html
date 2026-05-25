@@ -1,19 +1,11 @@
 <section aria-live="polite" aria-label="Lesson generation progress">
     <h2>{{ heading() }}</h2>
 
-    <ol class="steps">
-        @for (step of state.nodesCompleted(); track $index) {
-            <li class="done">
-                <span class="check" aria-hidden="true">✓</span>
-                <span>{{ nodeLabel(step.node) }}</span>
-            </li>
-        }
-        @if (state.isBusy()) {
-            <li class="pending">
-                <span class="dot" aria-hidden="true"></span>
-                <span class="sr-only">Working</span>
-                <span aria-hidden="true">Working…</span>
-            </li>
-        }
-    </ol>
+    <mfp-stepper [current]="currentStep()" orientation="vertical">
+        <mfp-step label="Draft lesson"></mfp-step>
+        <mfp-step label="Mastery check"></mfp-step>
+        <mfp-step label="Quality gate" [error]="qualityFailed()"></mfp-step>
+        <mfp-step label="Teacher review"></mfp-step>
+        <mfp-step label="Finalize"></mfp-step>
+    </mfp-stepper>
 </section>

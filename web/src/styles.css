@@ -1,28 +1,32 @@
 /* Global base styles */
 
 /*
- * LessonForge's app-level CSS variable layer. Where a value matches a
- * @mfp-design-system/tokens semantic, the var references the token directly
- * (single source of truth). Where LessonForge's warm/earthy palette has no
- * direct token equivalent yet, the value stays as a literal.
+ * LessonForge's app-level CSS variable layer. The app loads
+ * @mfp-design-system/tokens plus the `earth` theme; this layer aliases
+ * the legacy local variable names to themable semantic tokens. Swapping
+ * the theme in angular.json re-skins everything that flows through here.
  */
 :root {
-    /* Matched to design system tokens */
-    --accent: var(--color-status-info-solid);
+    /* Brand — themable */
+    --accent: var(--color-brand-primary);
+    --accent-hover: var(--color-brand-primary-hover);
+
+    /* Surfaces / text / borders — themable via theme overrides */
+    --bg: var(--color-background-default);
+    --footer-bg: var(--color-background-subtle);
+    --card: var(--color-neutral-0);
+    --text: var(--color-text-default);
+    --muted: var(--color-text-muted);
+    --border: var(--color-border-default);
+
+    /* Status — universal across themes */
     --success: var(--color-status-success-solid);
     --danger: var(--color-status-error-solid);
-    --header-bg: var(--color-neutral-800);
-    --card: var(--color-neutral-0);
+    --danger-bg: var(--color-status-error-bg);
 
-    /* Local values — warm palette or hover states without direct token equivalents */
-    --accent-hover: #1d4ed8;
-    --danger-bg: #fef2f2;
-    --header-muted: #cbd5e1;
-    --footer-bg: #f4f3ef;
-    --bg: #fafaf7;
-    --text: #1f2937;
-    --muted: #6b6963;
-    --border: #e5e3df;
+    /* Inverse surfaces (e.g. dark header) */
+    --header-bg: var(--color-neutral-800);
+    --header-muted: var(--color-text-inverse-muted);
     --hover: var(--footer-bg);
 }
 

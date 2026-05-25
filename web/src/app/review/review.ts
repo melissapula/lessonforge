@@ -1,11 +1,12 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LessonStateService } from '../api/lesson-state.service';
+import { MfpTextareaValueAccessor } from '../shared/mfp-textarea.directive';
 
 @Component({
     selector: 'app-review',
     standalone: true,
-    imports: [ReactiveFormsModule],
+    imports: [ReactiveFormsModule, MfpTextareaValueAccessor],
     templateUrl: './review.html',
     styleUrl: './review.css',
     schemas: [CUSTOM_ELEMENTS_SCHEMA],

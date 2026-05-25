@@ -1,8 +1,6 @@
 @if (state.finalLesson(); as lesson) {
-    <article aria-labelledby="final-title">
-        <header>
-            <h2 id="final-title">{{ lesson.title }}</h2>
-        </header>
+    <mfp-card aria-labelledby="final-title">
+        <h2 id="final-title" slot="header">{{ lesson.title }}</h2>
 
         <section>
             <h3>Lesson</h3>
@@ -34,11 +32,11 @@
             </ol>
         </section>
 
-        <div class="actions">
-            <button type="button" class="primary" (click)="copy()">
+        <div slot="footer" class="actions">
+            <mfp-button variant="primary" (click)="copy()">
                 {{ copied() ? 'Copied!' : 'Copy lesson' }}
-            </button>
-            <button type="button" (click)="reset()">Start another lesson</button>
+            </mfp-button>
+            <mfp-button variant="secondary" (click)="reset()">Start another lesson</mfp-button>
         </div>
-    </article>
+    </mfp-card>
 }

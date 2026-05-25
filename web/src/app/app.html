@@ -28,20 +28,20 @@
             <app-final-lesson />
         }
         @case ('rejected') {
-            <section class="status-card">
+            <mfp-card class="status-card">
                 <h2>Draft rejected</h2>
                 <p>You rejected the draft. No lesson was finalized.</p>
-                <button type="button" class="primary" (click)="state.reset()">
+                <mfp-button variant="primary" (click)="state.reset()">
                     Start a new lesson
-                </button>
-            </section>
+                </mfp-button>
+            </mfp-card>
         }
         @case ('error') {
-            <section class="status-card error" role="alert">
+            <mfp-card class="status-card status-card--error" role="alert">
                 <h2>Something went wrong</h2>
                 <p>{{ state.errorMessage() }}</p>
-                <button type="button" class="primary" (click)="state.reset()">Start over</button>
-            </section>
+                <mfp-button variant="primary" (click)="state.reset()">Start over</mfp-button>
+            </mfp-card>
         }
     }
 </main>

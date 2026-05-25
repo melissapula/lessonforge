@@ -1,14 +1,17 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LessonStateService } from '../api/lesson-state.service';
 import { GRADE_LEVELS, SUBJECTS, type GradeLevel, type Subject } from '../api/api.types';
+import { MfpSelectValueAccessor } from '../shared/mfp-select.directive';
+import { MfpTextareaValueAccessor } from '../shared/mfp-textarea.directive';
 
 @Component({
     selector: 'app-input-form',
     standalone: true,
-    imports: [ReactiveFormsModule],
+    imports: [ReactiveFormsModule, MfpSelectValueAccessor, MfpTextareaValueAccessor],
     templateUrl: './input-form.html',
     styleUrl: './input-form.css',
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class InputForm {
     protected readonly state = inject(LessonStateService);

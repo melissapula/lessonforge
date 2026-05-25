@@ -1,44 +1,43 @@
 <form (ngSubmit)="submit()" [formGroup]="form" novalidate>
     <h2>Generate a lesson</h2>
 
-    <div class="field">
-        <label for="objective">Learning objective</label>
-        <textarea
-            id="objective"
-            formControlName="objective"
-            rows="3"
-            placeholder="e.g. Identify the main idea of a paragraph"
-            aria-describedby="objective-hint"
-            [attr.aria-invalid]="
-                form.controls.objective.invalid && form.controls.objective.touched ? 'true' : null
-            "
-        ></textarea>
-        <small id="objective-hint" class="hint"
-            >What you want students to know or be able to do.</small
-        >
-    </div>
+    <mfp-textarea
+        label="Learning objective"
+        rows="3"
+        placeholder="e.g. Identify the main idea of a paragraph"
+        formControlName="objective"
+        [attr.hint]="
+            form.controls.objective.invalid && form.controls.objective.touched
+                ? null
+                : 'What you want students to know or be able to do.'
+        "
+        [attr.error]="
+            form.controls.objective.invalid && form.controls.objective.touched
+                ? 'Please enter an objective of at least 8 characters.'
+                : null
+        "
+    ></mfp-textarea>
 
     <div class="row">
-        <div class="field">
-            <label for="grade">Grade level</label>
-            <select id="grade" formControlName="grade_level">
-                @for (g of gradeLevels; track g) {
-                    <option [value]="g">{{ g }}</option>
-                }
-            </select>
-        </div>
+        <mfp-select label="Grade level" formControlName="grade_level">
+            @for (g of gradeLevels; track g) {
+                <option [value]="g">{{ g }}</option>
+            }
+        </mfp-select>
 
-        <div class="field">
-            <label for="subject">Subject</label>
-            <select id="subject" formControlName="subject">
-                @for (s of subjects; track s) {
-                    <option [value]="s">{{ s }}</option>
-                }
-            </select>
-        </div>
+        <mfp-select label="Subject" formControlName="subject">
+            @for (s of subjects; track s) {
+                <option [value]="s">{{ s }}</option>
+            }
+        </mfp-select>
     </div>
 
-    <button type="submit" [disabled]="disabled() || form.invalid">
-        {{ disabled() ? 'Generating…' : 'Generate lesson' }}
-    </button>
+    <mfp-button
+        type="submit"
+        variant="primary"
+        [attr.loading]="disabled() ? '' : null"
+        [attr.disabled]="form.invalid ? '' : null"
+    >
+        Generate lesson
+    </mfp-button>
 </form>

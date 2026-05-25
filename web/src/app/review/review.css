@@ -1,48 +1,41 @@
 :host {
     display: block;
+    margin-top: var(--size-spacing-6);
 }
 
-article {
-    background: var(--card, #fff);
-    border: 1px solid var(--border, #e5e3df);
-    border-radius: 6px;
-    padding: 1.5rem;
-    margin-top: 1.5rem;
+section {
+    margin-bottom: var(--size-spacing-6);
 }
 
-article > section {
-    margin-bottom: 1.5rem;
-}
-
-article > section:last-child {
+section:last-child {
     margin-bottom: 0;
 }
 
 h3 {
     margin-top: 0;
-    border-bottom: 1px solid var(--border, #e5e3df);
-    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: var(--size-spacing-1);
 }
 
 .examples li,
 .questions li {
-    margin-bottom: 1rem;
+    margin-bottom: var(--size-spacing-4);
 }
 
 .example-prompt,
 .question {
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
 }
 
 .example-solution,
 .answer,
 .rationale {
-    margin: 0.25rem 0 0;
-    padding-left: 0.5rem;
+    margin: var(--size-spacing-1) 0 0;
+    padding-left: var(--size-spacing-2);
 }
 
 .rationale {
-    color: var(--muted, #6b6963);
+    color: var(--muted);
 }
 
 .rubric {
@@ -57,86 +50,14 @@ h3 {
     padding: 0.4rem 0;
 }
 
-.badge {
-    display: inline-block;
-    padding: 0.15rem 0.5rem;
-    border-radius: 3px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    color: #fff;
-    min-width: 3rem;
-    text-align: center;
-}
-
-.badge.pass {
-    background: var(--success, #16a34a);
-}
-
-.badge.fail {
-    background: var(--danger, #dc2626);
-}
-
 .actions {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: var(--size-spacing-2);
     align-items: center;
 }
 
-.actions label {
-    flex: 0 0 100%;
-    font-weight: 600;
-}
-
-.actions textarea {
-    flex: 0 0 100%;
-    font: inherit;
-    padding: 0.5rem 0.65rem;
-    border: 1px solid var(--border, #c9c7c1);
-    border-radius: 4px;
-}
-
-.actions-row {
+.modal-footer {
     display: flex;
-    gap: 0.5rem;
-}
-
-button {
-    font: inherit;
-    font-weight: 600;
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--border, #c9c7c1);
-    background: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-button:hover {
-    background: var(--hover, #f4f3ef);
-}
-
-button.primary {
-    background: var(--accent, #2563eb);
-    color: #fff;
-    border-color: var(--accent, #2563eb);
-}
-
-button.primary:hover:not(:disabled) {
-    background: var(--accent-hover, #1d4ed8);
-}
-
-button.primary:disabled {
-    background: var(--muted, #9a9892);
-    border-color: var(--muted, #9a9892);
-    cursor: not-allowed;
-}
-
-button.danger {
-    color: var(--danger, #dc2626);
-    border-color: var(--danger, #dc2626);
-}
-
-button.danger:hover {
-    background: var(--danger-bg, #fef2f2);
+    gap: var(--size-spacing-2);
+    justify-content: flex-end;
 }

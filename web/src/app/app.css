@@ -3,9 +3,9 @@
     position: absolute;
     top: -40px;
     left: 0;
-    background: var(--accent, #2563eb);
-    color: #fff;
-    padding: 0.5rem 1rem;
+    background: var(--accent);
+    color: var(--color-text-inverse);
+    padding: var(--size-spacing-2) var(--size-spacing-4);
     text-decoration: none;
     z-index: 100;
 }
@@ -14,9 +14,9 @@
 }
 
 .site-header {
-    background: var(--header-bg, #1f2937);
-    color: #fff;
-    padding: 1.5rem 0;
+    background: var(--header-bg);
+    color: var(--color-text-inverse);
+    padding: var(--size-spacing-6) 0;
 }
 
 .site-header h1 {
@@ -25,12 +25,12 @@
 }
 
 .tagline {
-    margin: 0.25rem 0 0;
-    color: var(--header-muted, #cbd5e1);
+    margin: var(--size-spacing-1) 0 0;
+    color: var(--header-muted);
 }
 
 main {
-    padding: 2rem 0 3rem;
+    padding: var(--size-spacing-8) 0 var(--size-spacing-12);
     min-height: 60vh;
 }
 
@@ -39,43 +39,27 @@ main:focus {
 }
 
 .status-card {
-    background: var(--card, #fff);
-    border: 1px solid var(--border, #e5e3df);
-    border-radius: 6px;
-    padding: 1.5rem;
+    display: block;
     text-align: center;
 }
 
-.status-card.error {
-    border-color: var(--danger, #dc2626);
-    background: var(--danger-bg, #fef2f2);
+.status-card mfp-button {
+    margin-top: var(--size-spacing-4);
 }
 
-.status-card button {
-    margin-top: 1rem;
-}
-
-button.primary {
-    font: inherit;
-    font-weight: 600;
-    padding: 0.5rem 1rem;
-    border: 0;
-    background: var(--accent, #2563eb);
-    color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-}
-button.primary:hover {
-    background: var(--accent-hover, #1d4ed8);
+/* Extend mfp-card's surface for the error state via shadow part. */
+.status-card--error::part(surface) {
+    border-color: var(--danger);
+    background: var(--danger-bg);
 }
 
 .site-footer {
-    background: var(--footer-bg, #f4f3ef);
-    color: var(--muted, #6b6963);
-    padding: 1rem 0;
+    background: var(--footer-bg);
+    color: var(--muted);
+    padding: var(--size-spacing-4) 0;
     font-size: 0.9rem;
-    border-top: 1px solid var(--border, #e5e3df);
+    border-top: 1px solid var(--border);
 }
 .site-footer a {
-    color: var(--accent, #2563eb);
+    color: var(--accent);
 }

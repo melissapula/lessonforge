@@ -2,64 +2,22 @@
     display: block;
 }
 
-.field {
+form {
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
-    margin-bottom: 1rem;
+    gap: var(--size-spacing-6);
 }
 
-label {
-    font-weight: 600;
-}
-
-textarea,
-select {
-    font: inherit;
-    padding: 0.5rem 0.65rem;
-    border: 1px solid var(--border, #c9c7c1);
-    border-radius: 4px;
-    background: #fff;
-}
-
-textarea {
-    resize: vertical;
-}
-
-textarea:focus,
-select:focus {
-    outline: 2px solid var(--accent, #2563eb);
-    outline-offset: 1px;
-    border-color: var(--accent, #2563eb);
-}
-
-.hint {
-    color: var(--muted, #6b6963);
-    font-size: 0.85rem;
+form > h2 {
+    margin: 0;
 }
 
 .row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: var(--size-spacing-4);
 }
 
-button[type='submit'] {
-    font: inherit;
-    font-weight: 600;
-    padding: 0.6rem 1.1rem;
-    border: 0;
-    border-radius: 4px;
-    background: var(--accent, #2563eb);
-    color: #fff;
-    cursor: pointer;
-}
-
-button[type='submit']:disabled {
-    background: var(--muted, #9a9892);
-    cursor: not-allowed;
-}
-
-button[type='submit']:not(:disabled):hover {
-    background: var(--accent-hover, #1d4ed8);
+mfp-button {
+    align-self: flex-start;
 }

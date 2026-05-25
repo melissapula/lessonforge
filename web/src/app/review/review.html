@@ -1,6 +1,6 @@
 @if (state.snapshot(); as snap) {
-    <article aria-labelledby="review-title">
-        <h2 id="review-title">Review the draft</h2>
+    <mfp-card aria-labelledby="review-title">
+        <h2 id="review-title" slot="header">Review the draft</h2>
 
         @if (snap.lesson) {
             <section>
@@ -46,33 +46,25 @@
                 <h3>Quality report</h3>
                 <ul class="rubric">
                     <li>
-                        <span
-                            class="badge"
-                            [class.pass]="report.alignment.passed"
-                            [class.fail]="!report.alignment.passed"
-                        >
+                        <mfp-badge [attr.variant]="report.alignment.passed ? 'success' : 'error'">
                             {{ report.alignment.passed ? 'PASS' : 'FAIL' }}
-                        </span>
+                        </mfp-badge>
                         <strong>Alignment</strong> — {{ report.alignment.critique }}
                     </li>
                     <li>
-                        <span
-                            class="badge"
-                            [class.pass]="report.reading_level.passed"
-                            [class.fail]="!report.reading_level.passed"
+                        <mfp-badge
+                            [attr.variant]="report.reading_level.passed ? 'success' : 'error'"
                         >
                             {{ report.reading_level.passed ? 'PASS' : 'FAIL' }}
-                        </span>
+                        </mfp-badge>
                         <strong>Reading level</strong> — {{ report.reading_level.critique }}
                     </li>
                     <li>
-                        <span
-                            class="badge"
-                            [class.pass]="report.check_validity.passed"
-                            [class.fail]="!report.check_validity.passed"
+                        <mfp-badge
+                            [attr.variant]="report.check_validity.passed ? 'success' : 'error'"
                         >
                             {{ report.check_validity.passed ? 'PASS' : 'FAIL' }}
-                        </span>
+                        </mfp-badge>
                         <strong>Check validity</strong> — {{ report.check_validity.critique }}
                     </li>
                 </ul>
@@ -80,29 +72,30 @@
         }
 
         <section class="actions" role="group" aria-label="Decision">
-            @if (!showRevisePanel()) {
-                <mfp-button variant="primary" (click)="approve()">Approve</mfp-button>
-                <mfp-button variant="secondary" (click)="openRevise()">Revise…</mfp-button>
-                <mfp-button variant="danger" (click)="reject()">Reject</mfp-button>
-            } @else {
-                <label for="notes">What should change?</label>
-                <textarea
-                    id="notes"
-                    [formControl]="notes"
-                    rows="3"
-                    placeholder="e.g. Use simpler language; the second worked example was too hard."
-                ></textarea>
-                <div class="actions-row">
-                    <mfp-button
-                        variant="primary"
-                        (click)="submitRevise()"
-                        [attr.disabled]="notes.invalid ? '' : null"
-                    >
-                        Submit revision
-                    </mfp-button>
-                    <mfp-button variant="secondary" (click)="cancelRevise()">Cancel</mfp-button>
-                </div>
-            }
+            <mfp-button variant="primary" (click)="approve()">Approve</mfp-button>
+            <mfp-button variant="secondary" (click)="openRevise()">Revise…</mfp-button>
+            <mfp-button variant="danger" (click)="reject()">Reject</mfp-button>
         </section>
-    </article>
+    </mfp-card>
+
+    <mfp-modal [open]="showRevisePanel()" (close)="cancelRevise()">
+        <span slot="header">Revise the draft</span>
+        <mfp-textarea
+            label="What should change?"
+            rows="4"
+            placeholder="e.g. Use simpler language; the second worked example was too hard."
+            hint="Be specific — the model will use this as guidance for the next draft."
+            [formControl]="notes"
+        ></mfp-textarea>
+        <div slot="footer" class="modal-footer">
+            <mfp-button variant="secondary" (click)="cancelRevise()">Cancel</mfp-button>
+            <mfp-button
+                variant="primary"
+                (click)="submitRevise()"
+                [attr.disabled]="notes.invalid ? '' : null"
+            >
+                Submit revision
+            </mfp-button>
+        </div>
+    </mfp-modal>
 }

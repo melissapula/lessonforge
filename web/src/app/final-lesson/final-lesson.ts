@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, signal } from '@angular/core';
 import { LessonStateService } from '../api/lesson-state.service';
 import type { FinalLesson as FinalLessonType } from '../api/api.types';
 
@@ -8,6 +8,7 @@ import type { FinalLesson as FinalLessonType } from '../api/api.types';
     imports: [],
     templateUrl: './final-lesson.html',
     styleUrl: './final-lesson.css',
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class FinalLesson {
     protected readonly state = inject(LessonStateService);

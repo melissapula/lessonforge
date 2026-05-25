@@ -27,6 +27,7 @@
                         ],
                         "styles": [
                             "node_modules/@mfp-design-system/tokens/build/css/tokens.css",
+                            "node_modules/@mfp-design-system/tokens/build/themes/earth.css",
                             "src/styles.css"
                         ]
                     },
