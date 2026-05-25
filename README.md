@@ -46,6 +46,7 @@ features that don't catch fire in production.
 | Evaluation harness over a pinned dataset | `evals/run_evals.py` ([SPEC §5](./SPEC.md#5-evaluation-harness)) |
 | Streaming transport mirroring the interrupt boundary | `app/api.py` — two SSE streams per lesson ([SPEC §6](./SPEC.md#6-api-contract-fastapi--graph)) |
 | Single provider seam (one model, one place to swap) | `MODEL` constant in `app/llm.py` |
+| First-consumer adoption of an in-house design system | [`@mfp-design-system`](https://www.npmjs.com/org/mfp-design-system) wired into every Angular surface; bridge directives in `web/src/app/shared/` |
 | Spec-driven development | This README + [`SPEC.md`](./SPEC.md) |
 
 ---
@@ -136,6 +137,16 @@ Set the Anthropic API key one of two ways:
 
 > Check the current model name in the Anthropic docs and update `MODEL` in
 > `app/llm.py` if needed. Model strings change.
+
+#### Working without an API key
+
+For UI or design-system iteration, set `LESSONFORGE_MOCK=1` in `.env` to
+bypass the Anthropic API entirely. `generate_structured()` returns canned,
+schema-valid Pydantic objects keyed by subject (math, ELA, science, music),
+plus a generic mastery check and an all-pass quality report. The full
+LangGraph pipeline still runs end-to-end — interrupts, SSE progress
+stream, durable state, the lot — so the frontend behaves identically
+without spending credits.
 
 ### Frontend
 
@@ -247,6 +258,46 @@ The frontend showcases:
 - **Accessibility.** Semantic landmarks, skip-to-main link, `aria-live`
   on the progress region, labelled controls, focus styles, and pass/fail
   badges that don't rely on color alone.
+- **First-consumer integration of [`@mfp-design-system`](https://www.npmjs.com/org/mfp-design-system).**
+  Every interactive surface is a DS web component, themed with the
+  `earth` token set. See [Design system integration](#design-system-integration) below.
+
+---
+
+## Design system integration
+
+LessonForge is intentionally the first real consumer of
+[`@mfp-design-system`](https://www.npmjs.com/org/mfp-design-system) — a
+Lit-based web-component library I maintain separately. A design system
+that nobody uses is a weaker portfolio piece than a smaller one that's
+actually wired into a shipping app, so adoption here is deliberate.
+
+**Components in use.** `mfp-button`, `mfp-card`, `mfp-badge`,
+`mfp-form-field`, `mfp-select`, `mfp-textarea`, `mfp-modal`,
+`mfp-stepper` / `mfp-step`. Every interactive surface in the app —
+the input form, the progress indicator, the review panel with its
+PASS/FAIL rubric, the revise modal, the final lesson, the rejected
+and error status cards — is a DS primitive, not bespoke markup.
+
+**Semantic stepper colors.** The five-step `<mfp-stepper>` in the
+progress region uses status-token colors, not brand: green for
+completed steps, yellow for the active step, red for any step with
+`[error]`. The quality-gate step binds `[error]` to a computed
+`qualityFailed` signal, so a failed rubric renders red while passed
+steps stay green — visual feedback that mirrors the rubric outcome.
+
+**Tokens and theming.** The app loads `@mfp-design-system/tokens`
+plus the `earth` theme via `web/angular.json`. App-level CSS variables
+in `web/src/styles.css` alias to themable `--color-*` / `--size-*` /
+`--font-*` tokens, so swapping the theme stylesheet re-skins the whole
+app without touching component code.
+
+**Bridging Lit and Angular reactive forms.** Lit's form-associated
+custom elements work fine with Angular templates, but `formControlName`
+and `[formControl]` need a `ControlValueAccessor` adapter that listens
+to the components' `input` / `change` `CustomEvents` and writes back
+to their `value` property. Two tiny bridge directives live in
+`web/src/app/shared/` — one for `<mfp-select>`, one for `<mfp-textarea>`.
 
 ---
 
@@ -266,6 +317,7 @@ The frontend showcases:
 | `evals/run_evals.py` | The eval harness. |
 | `web/src/app/api/` | TypeScript API client (types + SSE-over-POST RxJS service + lifecycle store). |
 | `web/src/app/{input-form,progress,review,final-lesson}/` | Four standalone components, one per lifecycle phase. |
+| `web/src/app/shared/` | Angular `ControlValueAccessor` bridge directives that connect `<mfp-select>` and `<mfp-textarea>` to reactive forms. |
 | `web/src/app/app.{ts,html,css}` | Root shell with state-driven view switching. |
 
 ---
@@ -281,6 +333,8 @@ The frontend showcases:
 - Pinned eval harness (6 cases passing across grades 2–10 and four subjects)
 - FastAPI transport with two-stream SSE matching the interrupt boundary
 - Angular + RxJS frontend with state-driven view switching, fetch+ReadableStream wrapped as Observable, signals-based state store, and accessibility baked in
+- First-consumer adoption of [`@mfp-design-system`](https://www.npmjs.com/org/mfp-design-system) (button, card, badge, form-field, modal, select, stepper, textarea) with the `earth` theme; bridge directives lift Lit form-associated elements into Angular reactive forms
+- Optional `LESSONFORGE_MOCK=1` mode that bypasses the Anthropic API with canned, schema-valid responses — useful for UI / design-system iteration without API spend
 - Husky pre-commit hook (Prettier auto-fix + ESLint check) on the `web/` tree
 
 **Deliberately deferred:**
